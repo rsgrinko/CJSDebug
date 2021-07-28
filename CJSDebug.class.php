@@ -1,14 +1,16 @@
 <?php
 /*
-	Класс для отладки через консоль браузера
-	Позволяет вывести данные отладки в консоль браузера,
-	не пугая посетителей сайта
+	Класс для отладки
 	Роман Гринько <rsgrinko@gmail.com>
 	https://it-stories.ru/
 	
 	Пример использования:
 	CJSDebug::print_r($_SERVER, 'Debug $_SERVER array');
 	Выведет в консоль браузера массив $_SERVER в удобном виде
+    
+    CJSDebug::log($_SERVER, 'log_test.txt');
+    Запишет данные в лог-файл
+
 */
 	
 class CJSDebug {
@@ -17,6 +19,7 @@ class CJSDebug {
 		return;	
 	}
 	
+    // print_r в консоль
 	public static function print_r($str, $label = '') {
 		self::run();
 		echo '<script>console.group(\''.$label.'\');';
@@ -25,6 +28,7 @@ class CJSDebug {
 		return;
 	}
 	
+    //var_dump в консоль
 	public static function var_dump($str, $label = '') {
 		self::run();
 		ob_start();
@@ -35,5 +39,22 @@ class CJSDebug {
 		echo 'console.groupEnd();</script>';
 		return;
 	}
+
+    // если вдруг понадобится - вывод в контент
+    public static function pre($arr){
+        echo '<pre>'.print_r($arr, true).'</pre>';
+        return;
+    }
+
+    // логирование в файл
+    public static function log($arr, $name = 'log.txt'){
+        $result  = '------------- Log from '.__FILE__."\n";
+        $result .= '------------- Date: '.date("d.m.Y H:i:s")."\n";
+        $result .= print_r($arr, true)."\n";
+        $result .= '------------- End log'."\n\n";
+
+        file_put_contents($_SERVER['DOCUMENT_ROOT'].'/'.$name, $result, FILE_APPEND | LOCK_EX);
+        return;
+    }
 }
 ?>
