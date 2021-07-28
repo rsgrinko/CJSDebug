@@ -8,8 +8,8 @@
 	CJSDebug::print_r($_SERVER, 'Debug $_SERVER array');
 	Выведет в консоль браузера массив $_SERVER в удобном виде
     
-    CJSDebug::log($_SERVER, 'log_test.txt');
-    Запишет данные в лог-файл
+   	CJSDebug::log($_SERVER, 'log_test.txt');
+    	Запишет данные в лог-файл
 
 */
 	
